@@ -1,14 +1,15 @@
-import React, { Component } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
-import QRCode from "react-native-qrcode-svg";
+import React, { Component } from 'react';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import QRCode from 'react-native-qrcode-svg';
 
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      textCode: "",
-      qrCodeValue: ""
+      textCode: '',
+      qrCodeValue: '',
     };
+    this.qrCodeRef;
   }
 
   /**
@@ -19,6 +20,16 @@ class HomeScreen extends Component {
   onChangeText = text => {
     this.setState({ textCode: text });
   };
+
+  getDataURL = () => {
+    this.qrCodeRef.toDataURL(this.callback);
+  };
+
+  callback = dataURL => {
+    console.log(dataURL);
+  };
+
+  getRef = ref => (this.qrCodeRef = ref);
 
   handleGenerateButton = () => {
     const { textCode } = this.state;
