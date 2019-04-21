@@ -39,37 +39,38 @@ class HomeScreen extends Component {
   render = () => {
     const { textCode, qrCodeValue } = this.state;
     return (
-      <View style={{ flex: 1, justifyContent: "center" }}>
-        <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+      <View style={{ flex: 1, justifyContent: 'center', marginHorizontal: 10 }}>
+        <View style={{ marginVertical: 10 }}>
           <TextInput
+            style={{
+              borderColor: '#000',
+              borderWidth: 1,
+              borderRadius: 20,
+              padding: 10,
+            }}
             value={textCode}
+            multiline
             onChangeText={this.onChangeText}
             placeholder="Conteudo"
+            placeholderTextColor="#CCC"
           />
         </View>
         <TouchableOpacity
           style={{
-            flexDirection: "row",
-            marginHorizontal: 10,
-            backgroundColor: "#CCC",
+            borderColor: '#000',
+            borderWidth: 1,
+            borderRadius: 20,
             padding: 10,
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: 5
           }}
-          disabled={textCode === ""}
+          disabled={textCode === ''}
           onPress={this.handleGenerateButton}
         >
-          <Text style={{ alignSelf: "center" }}>Gerar</Text>
+          <Text style={{ alignSelf: 'center' }}>Gerar</Text>
         </TouchableOpacity>
 
         {qrCodeValue !== '' && (
           <View style={{ alignSelf: 'center' }}>
             <QRCode ref={this.getRef} value={qrCodeValue} size={100} />
-              style={{ alignSelf: "center" }}
-              value={qrCodeValue}
-              size={100}
-            />
           </View>
         )}
       </View>
