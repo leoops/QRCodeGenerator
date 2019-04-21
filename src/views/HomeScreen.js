@@ -94,6 +94,19 @@ class HomeScreen extends Component {
                 value={qrCodeValue}
                 size={qrCodeSize}
               />
+              <TouchableOpacity
+                style={{
+                  borderColor: '#000',
+                  borderWidth: 1,
+                  borderRadius: 20,
+                  padding: 10,
+                  marginTop: 5,
+                }}
+                disabled={textCode === ''}
+                onPress={this.getDataURL}
+              >
+                <Text style={{ alignSelf: 'center' }}>Gerar</Text>
+              </TouchableOpacity>
             </View>
           </View>
         )}
