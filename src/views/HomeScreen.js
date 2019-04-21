@@ -52,9 +52,9 @@ class HomeScreen extends Component {
           <Text style={{ alignSelf: "center" }}>Gerar</Text>
         </TouchableOpacity>
 
-        {qrCodeValue !== "" && (
-          <View style={{ alignSelf: "center" }}>
-            <QRCode
+        {qrCodeValue !== '' && (
+          <View style={{ alignSelf: 'center' }}>
+            <QRCode ref={this.getRef} value={qrCodeValue} size={100} />
               style={{ alignSelf: "center" }}
               value={qrCodeValue}
               size={100}
