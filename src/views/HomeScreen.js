@@ -8,6 +8,7 @@ class HomeScreen extends Component {
     this.state = {
       textCode: '',
       qrCodeValue: '',
+      qrCodeSize: 50,
     };
     this.qrCodeRef;
   }
@@ -26,20 +27,27 @@ class HomeScreen extends Component {
   };
 
   callback = dataURL => {
-    console.log(dataURL);
+    console.warn(dataURL);
   };
 
   getRef = ref => (this.qrCodeRef = ref);
 
+  onLayout = ({
+    nativeEvent: {
+      layout: { width },
+    },
+  }) => {
+    this.setState({ qrCodeSize: width - 50 });
+  };
   handleGenerateButton = () => {
     const { textCode } = this.state;
     this.setState({ qrCodeValue: textCode });
   };
 
   render = () => {
-    const { textCode, qrCodeValue } = this.state;
+    const { textCode, qrCodeValue, qrCodeSize } = this.state;
     return (
-      <View style={{ flex: 1, justifyContent: 'center', marginHorizontal: 10 }}>
+      <View style={{ flex: 1, marginHorizontal: 10 }}>
         <View style={{ marginVertical: 10 }}>
           <TextInput
             style={{
@@ -47,6 +55,9 @@ class HomeScreen extends Component {
               borderWidth: 1,
               borderRadius: 20,
               padding: 10,
+              paddingLeft: 12,
+              paddingTop: 12,
+              justifyContent: 'center',
             }}
             value={textCode}
             multiline
@@ -69,8 +80,21 @@ class HomeScreen extends Component {
         </TouchableOpacity>
 
         {qrCodeValue !== '' && (
-          <View style={{ alignSelf: 'center' }}>
-            <QRCode ref={this.getRef} value={qrCodeValue} size={100} />
+          <View
+            onLayout={this.onLayout}
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <View style={{ borderColor: '#000', borderWidth: 1, padding: 5 }}>
+              <QRCode
+                getRef={this.getRef}
+                value={qrCodeValue}
+                size={qrCodeSize}
+              />
+            </View>
           </View>
         )}
       </View>
