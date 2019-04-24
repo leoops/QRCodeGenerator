@@ -34,11 +34,20 @@ class HomeScreen extends Component {
       layout: { width },
     },
   }) => {
-    this.setState({ qrCodeSize: width - 50 });
+    this.setState({ qrCodeSize: width - 80 });
   };
+
   handleGenerateButton = () => {
     const { textCode } = this.state;
     this.setState({ qrCodeValue: textCode });
+  };
+
+  handleExcludeButton = () => {
+    this.setState({ qrCodeValue: '' });
+  };
+
+  handleSaveButton = () => {
+    this.qrCodeRef.toDataURL(this.callback);
   };
 
   render = () => {
