@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -20,10 +21,6 @@ class HomeScreen extends Component {
    */
   onChangeText = text => {
     this.setState({ textCode: text });
-  };
-
-  getDataURL = () => {
-    this.qrCodeRef.toDataURL(this.callback);
   };
 
   callback = dataURL => {
@@ -84,29 +81,39 @@ class HomeScreen extends Component {
             onLayout={this.onLayout}
             style={{
               flex: 1,
-              justifyContent: 'center',
+              paddingTop: 20,
+              justifyContent: 'flex-start',
               alignItems: 'center',
             }}
           >
-            <View style={{ borderColor: '#000', borderWidth: 1, padding: 5 }}>
+            <View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginTop: 10,
+                }}
+              >
+                {/* Deletar  */}
+                <Icon
+                  name="delete"
+                  size={36}
+                  color="red"
+                  onPress={this.handleExcludeButton}
+                />
+                {/* Salvar */}
+                <Icon
+                  name="check"
+                  size={36}
+                  color="blue"
+                  onPress={this.handleSaveButton}
+                />
+              </View>
               <QRCode
                 getRef={this.getRef}
                 value={qrCodeValue}
                 size={qrCodeSize}
               />
-              <TouchableOpacity
-                style={{
-                  borderColor: '#000',
-                  borderWidth: 1,
-                  borderRadius: 20,
-                  padding: 10,
-                  marginTop: 5,
-                }}
-                disabled={textCode === ''}
-                onPress={this.getDataURL}
-              >
-                <Text style={{ alignSelf: 'center' }}>Gerar</Text>
-              </TouchableOpacity>
             </View>
           </View>
         )}
