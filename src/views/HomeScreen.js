@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { saveBase64ToDisk } from '../services/Home';
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -9,7 +10,8 @@ class HomeScreen extends Component {
     this.state = {
       textCode: '',
       qrCodeValue: '',
-      qrCodeSize: 50,
+      qrCodeSize: 1,
+      isVisibleSaveIcon: true,
     };
     this.qrCodeRef;
   }
@@ -23,8 +25,14 @@ class HomeScreen extends Component {
     this.setState({ textCode: text });
   };
 
-  callback = dataURL => {
-    console.warn(dataURL);
+  saveImage = dataURL => {
+    saveBase64ToDisk(dataURL)
+      .then(() => {
+        this.setState({ isVisibleSaveIcon: false });
+      })
+      .catch(() => {
+        console.warn('foi nao');
+      });
   };
 
   getRef = ref => (this.qrCodeRef = ref);
@@ -39,7 +47,7 @@ class HomeScreen extends Component {
 
   handleGenerateButton = () => {
     const { textCode } = this.state;
-    this.setState({ qrCodeValue: textCode });
+    this.setState({ qrCodeValue: textCode, isVisibleSaveIcon: true });
   };
 
   handleExcludeButton = () => {
@@ -47,11 +55,11 @@ class HomeScreen extends Component {
   };
 
   handleSaveButton = () => {
-    this.qrCodeRef.toDataURL(this.callback);
+    this.qrCodeRef.toDataURL(this.saveImage);
   };
 
   render = () => {
-    const { textCode, qrCodeValue, qrCodeSize } = this.state;
+    const { textCode, qrCodeValue, qrCodeSize, isVisibleSaveIcon } = this.state;
     return (
       <View style={{ flex: 1, marginHorizontal: 10 }}>
         <View style={{ marginVertical: 10 }}>
@@ -99,7 +107,7 @@ class HomeScreen extends Component {
               <View
                 style={{
                   flexDirection: 'row',
-                  justifyContent: 'space-between',
+                  justifyContent: 'space-around',
                   marginTop: 10,
                 }}
               >
@@ -111,12 +119,14 @@ class HomeScreen extends Component {
                   onPress={this.handleExcludeButton}
                 />
                 {/* Salvar */}
-                <Icon
-                  name="check"
-                  size={36}
-                  color="blue"
-                  onPress={this.handleSaveButton}
-                />
+                {isVisibleSaveIcon && (
+                  <Icon
+                    name="check"
+                    size={36}
+                    color="blue"
+                    onPress={this.handleSaveButton}
+                  />
+                )}
               </View>
               <QRCode
                 getRef={this.getRef}
